@@ -7,10 +7,7 @@ declare global {
 	namespace App {
 		// interface Error {}
 		interface Locals {
-			user?: Pick<
-				IUser,
-				'id' | 'email' | 'roles' | 'permissions' | 'profileCompletion' | 'avatar'
-			> & {
+			user?: Pick<IUser, 'id' | 'email' | 'roles' | 'permissions' | 'profileCompletion' | 'avatar'> & {
 				firstName: string;
 				lastName: string;
 			};
