@@ -11,6 +11,8 @@
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import Loader from '$lib/utils/address-loader';
+	import Pre from '$lib/components/debug/pre.svelte';
+	import { json } from '@sveltejs/kit';
 	let loading = writable(false);
 	let toggleEdit = writable({ avatar: false, info: false, address: false });
 
@@ -25,10 +27,10 @@
 
 <h3 class="mx-3 text-xl">My Profile</h3>
 
-<div class="mx-3 py-5 gap-6 grid grid-cols-2 items-start">
-	<div class="w-full flex flex-col gap-6">
+<div class="mx-3 grid grid-cols-2 items-start gap-6 py-5">
+	<div class="flex w-full flex-col gap-6">
 		<div
-			class="flex items-center justify-between w-full border border-black/20 dark:border-white/20 rounded-lg py-4 px-8"
+			class="flex w-full items-center justify-between rounded-lg border border-black/20 px-8 py-4 dark:border-white/20"
 		>
 			<div class="flex items-start justify-start">
 				<div class="">Avatar</div>
@@ -40,9 +42,9 @@
 		</div>
 
 		<div
-			class="flex flex-col items-start justify-start w-full border border-black/20 dark:border-white/20 rounded-lg py-4 px-8 space-y-3 transition-all duration-1000"
+			class="flex w-full flex-col items-start justify-start space-y-3 rounded-lg border border-black/20 px-8 py-4 transition-all duration-1000 dark:border-white/20"
 		>
-			<div class="flex items-center justify-between w-full">
+			<div class="flex w-full items-center justify-between">
 				<span class="text-xl font-bold">Personal Information</span>
 				<EditButton
 					edit={$toggleEdit.info}
@@ -51,7 +53,7 @@
 			</div>
 			<div class="w-full">
 				<form
-					class="space-y-8 w-full"
+					class="w-full space-y-8"
 					method="POST"
 					action="?/info"
 					use:enhance={async () => {
@@ -69,7 +71,7 @@
 					{#if form?.profile?.message}
 						<span class="text-red-500">{form?.profile?.message}</span>
 					{/if}
-					<div class="w-full grid grid-cols-2 gap-6">
+					<div class="grid w-full grid-cols-2 gap-6">
 						<EditableInputGroup
 							label="First Name"
 							autocomplete="family-name"
@@ -105,7 +107,7 @@
 						{#if $toggleEdit.info}
 							<button
 								type="submit"
-								class={`bg-black dark:bg-white disabled:bg-black/80 disabled:dark:bg-white/80 hover:underline flex items-center justify-center py-1 px-3 text-white dark:text-black rounded-md gap-1.5`}
+								class={`flex items-center justify-center gap-1.5 rounded-md bg-black px-3 py-1 text-white hover:underline disabled:bg-black/80 dark:bg-white dark:text-black disabled:dark:bg-white/80`}
 							>
 								{#if $loading}
 									<Icon src={AiOutlineLoading} class="animate-spin" />
@@ -122,9 +124,9 @@
 	</div>
 
 	<div
-		class="flex flex-col items-start justify-start w-full border border-black/20 dark:border-white/20 rounded-lg py-4 px-8 space-y-3 transition-all duration-1000"
+		class="flex w-full flex-col items-start justify-start space-y-3 rounded-lg border border-black/20 px-8 py-4 transition-all duration-1000 dark:border-white/20"
 	>
-		<div class="flex items-center justify-between w-full">
+		<div class="flex w-full items-center justify-between">
 			<span class="text-xl font-bold">Address</span>
 			<EditButton
 				edit={$toggleEdit.address}
@@ -136,7 +138,7 @@
 				id="settings-profile-address"
 				action="?/address"
 				method="POST"
-				class="space-y-8 w-full"
+				class="w-full space-y-8"
 				use:enhance={async () => {
 					loading.set(true);
 					return async ({ result, update }) => {
@@ -152,7 +154,7 @@
 				{#if form?.address?.message}
 					<span class="text-red-500">{form?.address?.message}</span>
 				{/if}
-				<div class="w-full flex flex-col space-y-3">
+				<div class="flex w-full flex-col space-y-3">
 					<input type="hidden" name="place_id" />
 					<div class="flex items-center justify-between">
 						<EditableInputGroup
@@ -178,7 +180,7 @@
 							edit={$toggleEdit.address}
 						/>
 					</div>
-					<div class="flex items-center justify-between w-full [&>*]:w-[32%]">
+					<div class="flex w-full items-center justify-between [&>*]:w-[32%]">
 						<EditableInputGroup
 							label="State"
 							autocomplete="address-level1"
@@ -217,7 +219,7 @@
 					{#if $toggleEdit.address}
 						<button
 							type="submit"
-							class={`bg-black dark:bg-white disabled:bg-black/80 disabled:dark:bg-white/80 hover:underline flex items-center justify-center py-1 px-3 text-white dark:text-black rounded-md gap-1.5`}
+							class={`flex items-center justify-center gap-1.5 rounded-md bg-black px-3 py-1 text-white hover:underline disabled:bg-black/80 dark:bg-white dark:text-black disabled:dark:bg-white/80`}
 						>
 							{#if $loading}
 								<Icon src={AiOutlineLoading} class="animate-spin" />

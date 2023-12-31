@@ -11,16 +11,15 @@
 	export let data: PageServerData;
 </script>
 
-<div
-	class="w-full rounded-t-xl border border-collapse border-black/20 dark:border-white/20 py-3 px-6"
->
+<div class="w-full border-collapse rounded-t-xl border border-black/20 px-6 py-3 dark:border-white/20">
+	<!-- <Pre object={data.teams} /> -->
 	<table class="w-full">
 		<thead class="border-b">
-			<tr class="child:text-start child:text-sm child:pb-4 child:pt-2.5">
-				<th class="w-10 pl-5">
+			<tr class="child:pb-4 child:pt-2.5 child:text-start child:text-sm">
+				<th class="w-8 !text-center">
 					<div>
 						<input
-							class="form-checkbox text-black dark:text-white ring-black dark:ring-white border-black dark:border-white bg-white dark:bg-black focus:bg-white focus:dark:bg-black"
+							class="form-checkbox border-black bg-white text-black ring-black focus:bg-white dark:border-white dark:bg-black dark:text-white dark:ring-white focus:dark:bg-black"
 							type="checkbox"
 							checked
 						/>
@@ -36,11 +35,11 @@
 		</thead>
 		<tbody>
 			{#each data.teams.data as row}
-				<tr class="text-xs child:py-3.5 hover:bg-neutral-200">
-					<td class="w-10 pl-5">
+				<tr class="text-xs child:py-3.5 hover:bg-neutral-200 dark:hover:bg-neutral-900">
+					<td class="w-8 !text-center">
 						<div>
 							<input
-								class="form-checkbox text-black dark:text-white ring-black dark:ring-white border-black dark:border-white bg-white dark:bg-black focus:bg-white focus:dark:bg-black"
+								class="form-checkbox border-black bg-white text-black ring-black focus:bg-white dark:border-white dark:bg-black dark:text-white dark:ring-white focus:dark:bg-black"
 								type="checkbox"
 								checked
 							/>
@@ -60,15 +59,15 @@
 					<td class="flex items-center justify-start gap-5 pr-5">
 						<a
 							href={`/staff/teams/${row.id}`}
-							class="hover:underline flex items-center justify-center gap-1 hover:text-indigo-500 transition-all hover:scale-110"
+							class="flex items-center justify-center gap-1 transition-all hover:scale-110 hover:text-indigo-500 hover:underline"
 						>
-							<Icon src={AiOutlineEdit} class="w-4 h-4" />
+							<Icon src={AiOutlineEdit} class="h-4 w-4" />
 							<span>Edit</span>
 						</a>
 						<button
-							class="hover:underline flex items-center justify-center gap-1 hover:text-red-500 transition-all hover:scale-110"
+							class="flex items-center justify-center gap-1 transition-all hover:scale-110 hover:text-red-500 hover:underline"
 						>
-							<Icon src={AiOutlineDelete} class="w-4 h-4" />
+							<Icon src={AiOutlineDelete} class="h-4 w-4" />
 							<span>Delete</span>
 						</button>
 					</td>
@@ -76,5 +75,4 @@
 			{/each}
 		</tbody>
 	</table>
-	<Pre object={data.teams} />
 </div>

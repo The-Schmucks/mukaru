@@ -1,98 +1,89 @@
 import type IUser from '$lib/types/models/user/IUser';
 import type { Cookies, RequestEvent } from '@sveltejs/kit';
-import axios, { AxiosError } from 'axios';
 import { AUTH_CLIENT_ID, AUTH_CLIENT_SECRET } from '$env/static/private';
 import api from '$lib/api';
 import type { ILoginResponse } from '$lib/types/models/auth/IAuth';
 
-const getUser = async ({
-	locals,
-	cookies,
-	headers
-}: {
-	locals: App.Locals;
-	cookies: Cookies;
-	headers: RequestEvent['request']['headers'];
-}) => {
+const getUser = async (event: RequestEvent) => {
 	let count = 1;
-	if (count > 5) return;
-	if (cookies.get('access_token') !== undefined && cookies.get('refresh_token') !== undefined) {
+	if (count > 5) {
+		auth.deleteTokens({ cookies: event.cookies });
+		return;
+	}
+	if (
+		![undefined, 'undefined'].includes(event.cookies.get('access_token')) &&
+		![undefined, 'undefined'].includes(event.cookies.get('refresh_token'))
+	) {
 		try {
-			const response = await axios.get<
-				Pick<IUser, 'id' | 'email' | 'roles' | 'permissions' | 'avatar'> & {
-					profile?: {
-						firstName: string;
-						lastName: string;
-					};
-				}
-			>('/user');
+			type ICurrentUser = Pick<IUser, 'id' | 'email' | 'roles' | 'permissions' | 'avatar'> & {
+				profile?: {
+					firstName: string;
+					lastName: string;
+				};
+			};
 
-			locals.user = {
-				id: response.data.id,
-				email: response.data.email,
-				firstName: response.data.profile?.firstName!,
-				lastName: response.data.profile?.lastName!,
-				roles: response.data.roles,
-				permissions: response.data.permissions,
-				avatar: response.data.avatar
+			const response = await api(event).general.get('user');
+			const data = (await response.json()) as ICurrentUser;
+
+			event.locals.user = {
+				id: data.id,
+				email: data.email,
+				firstName: data.profile?.firstName!,
+				lastName: data.profile?.lastName!,
+				roles: data.roles,
+				permissions: data.permissions,
+				avatar: data.avatar
 			};
 		} catch (e) {
-			if (axios.isAxiosError(e)) {
-				const error = e as AxiosError;
-				if (error.response?.status === 401) {
-				}
-			}
+			count = count + 1;
+			await refreshToken(event);
+			await getUser(event);
 		}
-	} else if (cookies.get('refresh_token')) {
+	} else if (event.cookies.get('refresh_token')) {
 		count = count + 1;
-		await refreshToken({ cookies: cookies, locals: locals });
-		await getUser({ cookies: cookies, locals: locals, headers: headers });
+		await refreshToken(event);
+		await getUser(event);
+	} else{
+		auth.deleteTokens({ cookies: event.cookies });
 	}
 };
 
-const refreshToken = async ({ cookies, locals }: { cookies: Cookies; locals: App.Locals }) => {
+const refreshToken = async (event: RequestEvent) => {
 	try {
-		const response = await api.auth().post<ILoginResponse>('oauth/token', {
+		const body = JSON.stringify({
 			grant_type: 'refresh_token',
-			refresh_token: cookies.get('refresh_token'),
+			refresh_token: event.cookies.get('refresh_token'),
 			client_id: AUTH_CLIENT_ID,
 			client_secret: AUTH_CLIENT_SECRET,
 			scope: ''
 		});
 
+		const response = await api(event).auth.post('oauth/token', { body });
+		const data = (await response.json()) as ILoginResponse;
+
 		auth.setAccessTokens({
-			cookies: cookies,
-			access_token: response.data.access_token,
-			expires_in: response.data.expires_in
+			cookies: event.cookies,
+			access_token: data.access_token,
+			expires_in: data.expires_in
 		});
 
 		auth.setRefreshTokens({
-			cookies: cookies,
-			refresh_token: response.data.refresh_token
+			cookies: event.cookies,
+			refresh_token: data.refresh_token
 		});
 	} catch (error) {
-		const e = error as AxiosError<{ error: string }>;
-
 		auth.setRefreshTokens({
-			cookies: cookies,
+			cookies: event.cookies,
 			refresh_token: ''
 		});
 
-		auth.deleteTokens({ cookies });
+		auth.deleteTokens({ cookies: event.cookies });
 	}
 };
 
 const auth = {
-	authenticate: async ({
-		locals,
-		cookies,
-		headers
-	}: {
-		locals: App.Locals;
-		cookies: Cookies;
-		headers: RequestEvent['request']['headers'];
-	}) => {
-		await getUser({ locals: locals, cookies: cookies, headers });
+	authenticate: async (event: RequestEvent) => {
+		await getUser(event);
 	},
 	setAccessTokens: ({
 		cookies,
@@ -121,8 +112,8 @@ const auth = {
 		});
 	},
 	deleteTokens: ({ cookies }: { cookies: Cookies }) => {
-		cookies.delete('access_token');
-		cookies.delete('refresh_token');
+		cookies.delete('access_token', { path: '/' });
+		cookies.delete('refresh_token', { path: '/' });
 	}
 };
 

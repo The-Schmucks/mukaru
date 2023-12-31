@@ -17,6 +17,8 @@ export const handleError: HandleServerError = async ({ error, event }) => {
 
 	Sentry.captureException(error, { extra: { event, errorId } });
 
+	console.log('Whoops: ', error);
+
 	return {
 		message: 'Whoops!',
 		errorId
@@ -24,17 +26,7 @@ export const handleError: HandleServerError = async ({ error, event }) => {
 };
 
 export const handle = (async ({ event, resolve }) => {
-	api.init({
-		cookies: event.cookies,
-		headers: event.request.headers,
-		ip: event.getClientAddress()
-	});
-
-	await auth.authenticate({
-		locals: event.locals,
-		cookies: event.cookies,
-		headers: event.request.headers
-	});
+	await auth.authenticate(event);
 
 	// Run all middlewares registered in the middleware file
 	await new Middleware({

@@ -1,5 +1,5 @@
 import { PUBLIC_MAPS_API_KEY, PUBLIC_SITE_COUNTRY } from '$env/static/public';
-import { Loader as PlacesApiLoader } from '@googlemaps/js-api-loader';
+import * as GMaps from '@googlemaps/js-api-loader';
 
 export default class Loader {
 	form_id: string;
@@ -11,7 +11,7 @@ export default class Loader {
 		const form = document.getElementById(this.form_id);
 
 		if (!form) return;
-
+		const { Loader: PlacesApiLoader } = GMaps;
 		const loader = new PlacesApiLoader({
 			apiKey: PUBLIC_MAPS_API_KEY,
 			version: 'weekly',
@@ -20,26 +20,21 @@ export default class Loader {
 
 		const { Autocomplete } = await loader.importLibrary('places');
 		form.querySelector('input[name=street_address]');
-		const autocomplete = new Autocomplete(
-			form.querySelector('input[name=street_address]') as HTMLInputElement,
-			{
-				fields: ['place_id', 'address_components', 'name', 'type'],
-				componentRestrictions: { country: PUBLIC_SITE_COUNTRY },
-				strictBounds: false,
-				types: ['address']
-			}
-		);
+		const autocomplete = new Autocomplete(form.querySelector('input[name=street_address]') as HTMLInputElement, {
+			fields: ['place_id', 'address_components', 'name', 'type'],
+			componentRestrictions: { country: PUBLIC_SITE_COUNTRY },
+			strictBounds: false,
+			types: ['address']
+		});
 
 		autocomplete.addListener('place_changed', () => {
 			const place = autocomplete.getPlace();
 
-			(form.querySelector('input[name=street_address]') as HTMLInputElement).value =
-				place.name ?? '';
+			(form.querySelector('input[name=street_address]') as HTMLInputElement).value = place.name ?? '';
 			(form.querySelector('input[name=city]') as HTMLInputElement).value =
 				place.address_components?.find((x) => x.types.includes('locality'))?.long_name ?? '';
 			(form.querySelector('input[name=state]') as HTMLInputElement).value =
-				place.address_components?.find((x) => x.types.includes('administrative_area_level_1'))
-					?.long_name ?? '';
+				place.address_components?.find((x) => x.types.includes('administrative_area_level_1'))?.long_name ?? '';
 			(form.querySelector('input[name=country]') as HTMLInputElement).value =
 				place.address_components?.find((x) => x.types.includes('country'))?.short_name ?? '';
 

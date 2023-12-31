@@ -1,50 +1,19 @@
-import { fail } from '@sveltejs/kit';
-import axios, { AxiosError } from 'axios';
 import type { Actions, PageServerLoad } from './$types';
 import type IError from '$lib/types/shared/IError';
 import type IProfile from '$lib/types/models/profile/IProfile';
 import type IAddress from '$lib/types/models/address/IAddress';
 import type IModel from '$lib/types/shared/IModel';
 import settle from '$lib/utils/settle';
+import api from '$lib/api';
 
-type IAddressError = IError<Omit<IAddress, keyof IModel | 'place_id'>>;
+export const load = (async (event) => {
+	const profileResponse = await api(event).general.get('user_profile');
+	const addressResponse = await api(event).general.get('user_address');
 
-export const load = (async ({ locals }) => {
-	try {
-		const [profile, address] = await Promise.allSettled([
-			axios.get<IProfile>(`user_profile`),
-			axios.get<IAddress>(`user_address`)
-		]);
-
-		return {
-			profile: settle({ object: profile, defaults: ['firstName', 'lastName', 'phoneNumber'] }),
-			address: settle({
-				object: address,
-				defaults: ['city', 'country', 'postal_code', 'state', 'street_address']
-			})
-		} satisfies {
-			profile: IProfile;
-			address: Omit<IAddress, keyof IModel | 'place_id'>;
-		};
-	} catch (error) {
-		return {
-			profile: {
-				firstName: '',
-				lastName: '',
-				phoneNumber: ''
-			},
-			address: {
-				city: '',
-				country: '',
-				postal_code: '',
-				state: '',
-				street_address: ''
-			}
-		} satisfies {
-			profile: IProfile;
-			address: Omit<IAddress, keyof IModel | 'place_id'>;
-		};
-	}
+	return {
+		profile: (await profileResponse.json()) as IProfile,
+		address: (await addressResponse.json()) as IAddress
+	};
 }) satisfies PageServerLoad;
 
 export const actions = {
@@ -52,31 +21,32 @@ export const actions = {
 		const form = await event.request.formData();
 
 		try {
-			const result = await axios.post<IProfile>(`user_profile`, {
-				firstName: form.get('firstName'),
-				lastName: form.get('lastName'),
-				phoneNumber: form.get('phoneNumber')
+			const response = await api(event).general.post(`user_profile`, {
+				body: JSON.stringify({
+					firstName: form.get('firstName'),
+					lastName: form.get('lastName'),
+					phoneNumber: form.get('phoneNumber')
+				})
 			});
-			return { success: true };
-		} catch (e) {
-			if (axios.isAxiosError(e)) {
-				const { response } = e as AxiosError<IError<IProfile>>;
-				return fail(response?.status!, {
+
+			return await settle<IProfile, {}>({
+				response,
+				validation: (data) => ({
 					profile: {
-						message: response?.data.message,
-						errors: response?.data.errors,
+						message: data.message,
+						errors: data.errors,
 						data: {
-							firstName: form.get('firstName'),
-							lastName: form.get('lastName'),
-							phoneNumber: form.get('phoneNumber')
-						} as {
-							firstName: string;
-							lastName: string;
-							phoneNumber: string;
+							firstName: form.get('firstName') as string,
+							lastName: form.get('lastName') as string,
+							phoneNumber: form.get('phoneNumber') as string
 						}
 					}
-				});
-			}
+				}),
+				done: (data) => ({
+					success: true
+				})
+			});
+		} catch (e) {
 			throw e;
 		}
 	},
@@ -84,38 +54,37 @@ export const actions = {
 		const form = await event.request.formData();
 
 		try {
-			const result = await axios.post<Omit<IAddress, keyof IModel | 'place_id'>>(`user_address`, {
-				street_address: form.get('street_address'),
-				city: form.get('city'),
-				state: form.get('state'),
-				country: form.get('country'),
-				postal_code: form.get('postal_code'),
-				place_id: form.get('place_id')
+			const response = await api(event).general.post(`user_address`, {
+				body: JSON.stringify({
+					street_address: form.get('street_address'),
+					city: form.get('city'),
+					state: form.get('state'),
+					country: form.get('country'),
+					postal_code: form.get('postal_code'),
+					place_id: form.get('place_id')
+				})
 			});
-			return { success: true };
-		} catch (e) {
-			if (axios.isAxiosError(e)) {
-				const { response } = e as AxiosError<IAddressError>;
-				return fail(response?.status!, {
+
+			return await settle<Omit<IAddress, keyof IModel | 'place_id'>>({
+				response,
+				validation: (data) => ({
 					address: {
-						message: response?.data.message,
-						errors: response?.data.errors,
+						message: data.message,
+						errors: data.errors,
 						data: {
-							street_address: form.get('street_address'),
-							city: form.get('city'),
-							state: form.get('state'),
-							country: form.get('country'),
-							postal_code: form.get('postal_code')
-						} as {
-							street_address: string;
-							city: string;
-							state: string;
-							country: string;
-							postal_code: string;
+							street_address: form.get('street_address') as string,
+							city: form.get('city') as string,
+							state: form.get('state') as string,
+							country: form.get('country') as string,
+							postal_code: form.get('postal_code') as string
 						}
 					}
-				});
-			}
+				}),
+				done: (data) => ({
+					success: true
+				})
+			});
+		} catch (e) {
 			throw e;
 		}
 	}

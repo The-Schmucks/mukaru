@@ -1,15 +1,16 @@
-import axios from 'axios';
+import api from '$lib/api';
 import type { RequestHandler } from './$types';
 import { redirect } from '@sveltejs/kit';
 
-export const GET = (async ({ cookies }) => {
+export const GET = (async (event) => {
 	try {
-		await axios.get('logout');
+		await api(event).general.get('logout');
 	} catch (error) {}
-	cookies.delete('access_token');
-	cookies.delete('refresh_token');
 
-	throw redirect(302, '/');
+	event.cookies.delete('access_token', { path: '/' });
+	event.cookies.delete('refresh_token', { path: '/' });
+
+	redirect(302, '/');
 
 	// return new Response('/');
 }) satisfies RequestHandler;

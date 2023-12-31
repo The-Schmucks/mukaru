@@ -1,12 +1,12 @@
-import axios from 'axios';
 import type { RequestHandler } from './$types';
-import { json, redirect } from '@sveltejs/kit';
+import { json } from '@sveltejs/kit';
+import api from '$lib/api';
 
-export const POST = (async ({ request }) => {
-	const formData: { payload: 'on' | 'off' } = await request.json();
+export const POST = (async (event) => {
+	const formData: { payload: 'on' | 'off' } = await event.request.json();
 	try {
-		if (formData.payload == 'on') await axios.post('mfa/on');
-		else await axios.post('mfa/off');
+		if (formData.payload == 'on') await api(event).general.post('mfa/on');
+		else await api(event).general.post('mfa/off');
 	} catch (error) {
 		return json({ invalidate: false });
 	}
