@@ -18,10 +18,11 @@ export default {
 		}
 	},
 	plugins: [
-		({ addVariant }) => {
-			addVariant('child', '& > *');
-		},
+		require('tailwind-children'),
 		require('@tailwindcss/forms'),
+		require('@tailwindcss/container-queries'),
+		require('@tailwindcss/aspect-ratio'),
+		require('@tailwindcss/typography'),
 		require('tailwind-scrollbar')({ nocompatible: true })
 	]
 };
