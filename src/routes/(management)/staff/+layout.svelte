@@ -7,18 +7,16 @@
 	export let data: LayoutData;
 </script>
 
-<header
-	class="sticky top-0 z-[99] border-b-[.5px] border-black/20 dark:border-white/20 backdrop-blur-xl"
->
+<header class="sticky top-0 z-[99] border-b-[.5px] border-black/20 backdrop-blur-xl dark:border-white/20">
 	<div class="py-4 sm:mx-8">
 		<Header />
 	</div>
 </header>
 
-<main class="basis-full flex divide-x divide-black/20 dark:divide-white/20 overflow-hidden">
+<main class="flex basis-full divide-x divide-black/20 overflow-hidden dark:divide-white/20">
 	<Sidebar user={data.user} />
 	<div
-		class="py-4 px-6 w-full overflow-y-scroll scrollbar-thin scrollbar-corner-red-950 scrollbar-track-neutral-300 scrollbar-thumb-neutral-800 hover:scrollbar-thumb-neutral-600 scrollbar-thumb-rounded scrollbar-track-rounded"
+		class="w-full overflow-y-scroll px-6 py-4 scrollbar-thin scrollbar-track-neutral-300 scrollbar-thumb-neutral-800 scrollbar-corner-red-950 scrollbar-track-rounded scrollbar-thumb-rounded hover:scrollbar-thumb-neutral-600"
 	>
 		<div class="contents">
 			<slot />

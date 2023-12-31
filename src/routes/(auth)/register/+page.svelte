@@ -10,12 +10,10 @@
 	$: loading;
 </script>
 
-<div class="basis-full flex flex-col mx-56 justify-center space-y-6">
-	<div class="space-y-2 flex flex-col">
+<div class="mx-56 flex basis-full flex-col justify-center space-y-6">
+	<div class="flex flex-col space-y-2">
 		<span class="text-2xl">Register</span>
-		<span class="text-sm text-black/75 dark:text-white/75">
-			Create your account to explore more features!
-		</span>
+		<span class="text-sm text-black/75 dark:text-white/75"> Create your account to explore more features! </span>
 	</div>
 	<form
 		class="space-y-6"
@@ -66,9 +64,7 @@
 			<Submit loading={$loading} />
 			<span class="flex items-center justify-center">
 				Already have an account?
-				<a data-sveltekit-preload-data="tap" href="login" class="font-bold ml-1 hover:underline">
-					Login
-				</a>
+				<a data-sveltekit-preload-data="tap" href="login" class="ml-1 font-bold hover:underline"> Login </a>
 			</span>
 		</div>
 	</form>

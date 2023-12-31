@@ -7,7 +7,7 @@
 
 <a
 	{href}
-	class="hover:cursor-pointer text-sm hover:text-base transition-[font-size_border] hover:border-b border-black dark:border-white hover:px-2"
+	class="border-black text-sm transition-[font-size_border] hover:cursor-pointer hover:border-b hover:px-2 hover:text-base dark:border-white"
 	data-sveltekit-preload-data={dataSveltekitPreloadData}
 >
 	<slot />

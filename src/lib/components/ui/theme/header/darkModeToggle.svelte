@@ -8,7 +8,7 @@
 	};
 </script>
 
-<div class="flex justify-center items-center">
+<div class="flex items-center justify-center">
 	<span class="">
 		<svg
 			class={`h-4 w-4 ${dark ? 'text-white' : 'text-black'} dark:text-white`}
@@ -25,15 +25,15 @@
 		</svg>
 	</span>
 	<button
-		class={`w-7 h-4 flex items-center ${
+		class={`flex h-4 w-7 items-center ${
 			dark ? 'bg-white' : 'bg-black'
-		} dark:bg-white rounded-full mx-0.5 px-0.5 hover:cursor-pointer`}
+		} mx-0.5 rounded-full px-0.5 hover:cursor-pointer dark:bg-white`}
 		on:click={toggleDarkMode}
 	>
 		<div
 			class={`${
 				dark ? 'bg-black' : 'bg-white'
-			} dark:bg-black w-3 h-3 rounded-full shadow-md transition-transform ease-in-out ${
+			} h-3 w-3 rounded-full shadow-md transition-transform ease-in-out dark:bg-black ${
 				$theme == 'dark' && ' translate-x-3'
 			}`}
 		/>

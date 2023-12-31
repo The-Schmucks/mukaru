@@ -11,6 +11,4 @@
 	});
 </script>
 
-<div
-	class={`absolute right-0 transition-[top,bottom] ${classes} bg-white/5 backdrop-blur-sm left-0`}
-/>
+<div class={`absolute right-0 transition-[top,bottom] ${classes} left-0 bg-white/5 backdrop-blur-sm`} />

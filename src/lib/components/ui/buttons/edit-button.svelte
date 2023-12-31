@@ -7,14 +7,14 @@
 </script>
 
 <button
-	class="flex items-center justify-center space-x-1.5 border border-black/20 dark:border-white/20 pl-1.5 pr-3 py-1 rounded-full bg-black text-white dark:bg-white dark:text-black hover:underline"
+	class="flex items-center justify-center space-x-1.5 rounded-full border border-black/20 bg-black py-1 pl-1.5 pr-3 text-white hover:underline dark:border-white/20 dark:bg-white dark:text-black"
 	on:click
 >
 	{#if edit}
-		<Icon src={AiOutlineClose} class="w-4 h-4" />
+		<Icon src={AiOutlineClose} class="h-4 w-4" />
 		<span class="text-xs">Close</span>
 	{:else}
-		<Icon src={AiOutlineEdit} class="w-4 h-4" />
+		<Icon src={AiOutlineEdit} class="h-4 w-4" />
 		<span class="text-xs">Edit</span>
 	{/if}
 </button>

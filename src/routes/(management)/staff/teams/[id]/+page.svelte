@@ -26,11 +26,11 @@
 </script>
 
 <BreadCrumb links={['Staff', 'Teams']} />
-<div class="mt-3 mx-3 grid grid-cols-2 gap-6 items-start">
+<div class="mx-3 mt-3 grid grid-cols-2 items-start gap-6">
 	<div
-		class="flex flex-col items-start justify-start border border-black/20 dark:border-white/20 rounded-lg py-4 px-8 space-y-3 transition-all duration-1000"
+		class="flex flex-col items-start justify-start space-y-3 rounded-lg border border-black/20 px-8 py-4 transition-all duration-1000 dark:border-white/20"
 	>
-		<div class="flex items-center justify-between w-full">
+		<div class="flex w-full items-center justify-between">
 			<span class="text-xl font-bold">Team Info</span>
 			<EditButton
 				edit={$toggleEdit.team}
@@ -39,7 +39,7 @@
 		</div>
 		<div class="w-full">
 			<form
-				class="space-y-8 w-full"
+				class="w-full space-y-8"
 				method="POST"
 				action="?/team"
 				use:enhance={async () => {
@@ -73,12 +73,12 @@
 					{#if $toggleEdit.team}
 						<button
 							type="submit"
-							class={`bg-black dark:bg-white disabled:bg-black/80 disabled:dark:bg-white/80 hover:underline flex items-center justify-center py-2 px-3 text-sm text-white dark:text-black rounded-md gap-1.5`}
+							class={`flex items-center justify-center gap-1.5 rounded-md bg-black px-3 py-2 text-sm text-white hover:underline disabled:bg-black/80 dark:bg-white dark:text-black disabled:dark:bg-white/80`}
 						>
 							{#if loading}
-								<Icon src={AiOutlineLoading} class="animate-spin w-5 h-5" />
+								<Icon src={AiOutlineLoading} class="h-5 w-5 animate-spin" />
 							{:else}
-								<Icon src={AiOutlineSave} class="w-5 h-5" />
+								<Icon src={AiOutlineSave} class="h-5 w-5" />
 							{/if}
 							Save
 						</button>
@@ -89,9 +89,9 @@
 	</div>
 
 	<div
-		class="flex flex-col items-start justify-start border border-black/20 dark:border-white/20 rounded-lg py-4 px-8 space-y-3 transition-all duration-1000"
+		class="flex flex-col items-start justify-start space-y-3 rounded-lg border border-black/20 px-8 py-4 transition-all duration-1000 dark:border-white/20"
 	>
-		<div class="flex items-center justify-between w-full">
+		<div class="flex w-full items-center justify-between">
 			<span class="text-xl font-bold">Team Address</span>
 			<EditButton
 				edit={$toggleEdit.address}
@@ -100,7 +100,7 @@
 		</div>
 		<div class="w-full">
 			<form
-				class="space-y-8 w-full"
+				class="w-full space-y-8"
 				method="POST"
 				action="?/address"
 				use:enhance={async () => {
@@ -118,7 +118,7 @@
 				{#if form?.address?.message}
 					<span class="text-red-500">{form?.address?.message}</span>
 				{/if}
-				<div class="w-full flex flex-col space-y-3">
+				<div class="flex w-full flex-col space-y-3">
 					<input type="hidden" name="place_id" />
 					<div class="flex items-center justify-between">
 						<EditableInputGroup
@@ -144,7 +144,7 @@
 							edit={$toggleEdit.address}
 						/>
 					</div>
-					<div class="flex items-center justify-between w-full [&>*]:w-[32%]">
+					<div class="flex w-full items-center justify-between [&>*]:w-[32%]">
 						<EditableInputGroup
 							label="State"
 							autocomplete="address-level1"
@@ -183,12 +183,12 @@
 					{#if $toggleEdit.team}
 						<button
 							type="submit"
-							class={`bg-black dark:bg-white disabled:bg-black/80 disabled:dark:bg-white/80 hover:underline flex items-center justify-center py-2 px-3 text-sm text-white dark:text-black rounded-md gap-1.5`}
+							class={`flex items-center justify-center gap-1.5 rounded-md bg-black px-3 py-2 text-sm text-white hover:underline disabled:bg-black/80 dark:bg-white dark:text-black disabled:dark:bg-white/80`}
 						>
 							{#if loading}
-								<Icon src={AiOutlineLoading} class="animate-spin w-5 h-5" />
+								<Icon src={AiOutlineLoading} class="h-5 w-5 animate-spin" />
 							{:else}
-								<Icon src={AiOutlineSave} class="w-5 h-5" />
+								<Icon src={AiOutlineSave} class="h-5 w-5" />
 							{/if}
 							Save
 						</button>

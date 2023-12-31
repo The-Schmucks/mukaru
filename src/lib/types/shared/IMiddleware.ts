@@ -1,8 +1,8 @@
 import type { RequestEvent } from '@sveltejs/kit';
 
-type IMiddlware = (params: {
+type IMiddleware = (params: {
 	event: RequestEvent;
 	abort: (params: { url: URL; route?: string; prev?: false | string }) => never;
 }) => void;
 
-export default IMiddlware;
+export default IMiddleware;

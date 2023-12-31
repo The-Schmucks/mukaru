@@ -6,9 +6,7 @@
 	export let data: LayoutData;
 </script>
 
-<header
-	class="sticky top-0 z-[99] border-b-[.5px] border-black/20 dark:border-white/20 backdrop-blur-xl"
->
+<header class="sticky top-0 z-[99] border-b-[.5px] border-black/20 backdrop-blur-xl dark:border-white/20">
 	<div class="py-4 sm:mx-8">
 		<Header user={data.user} />
 	</div>

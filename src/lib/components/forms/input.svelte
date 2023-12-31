@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { HTMLInputTypeAttribute } from 'svelte/elements';
+	import { twMerge } from 'tailwind-merge';
 
 	export let value: HTMLInputElement['value'] | undefined = undefined;
 	export let placeholder: HTMLInputElement['placeholder'] | undefined = undefined;
@@ -20,9 +21,11 @@
 	{placeholder}
 	{hidden}
 	{value}
-	class={`rounded-md px-3 py-2 text-xs placeholder:text-black/70 dark:placeholder:text-white/70 ${
-		hasErrors ? 'ring-red-600 border-red-600' : 'ring-black/50 dark:ring-white/50'
-	}`}
+	class={twMerge(
+		`form-input rounded-md bg-white px-3 py-2 text-xs placeholder:text-black/70 focus:border-black focus:ring-black dark:bg-black dark:placeholder:text-white/70 focus:dark:border-white focus:dark:ring-white ${
+			hasErrors ? 'border-red-600 ring-red-600' : 'ring-black/50 dark:ring-white/50'
+		}`
+	)}
 	{autocomplete}
 	use:inputType
 />

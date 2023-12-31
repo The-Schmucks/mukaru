@@ -13,7 +13,7 @@
 	$: value;
 </script>
 
-<div class="w-full flex flex-col">
+<div class="flex w-full flex-col">
 	<InputLabel {label} {name} />
 	<Input {autocomplete} {placeholder} {value} {type} {name} hasErrors={errors?.length > 0} />
 	<InputError {errors} />

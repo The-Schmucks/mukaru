@@ -4,8 +4,8 @@
 </script>
 
 <div
-	class="relative w-full h-full flex flex-col justify-center items-center border border-black/20 dark:border-white/20 py-1.5 px-1.5 rounded-full"
+	class="relative flex h-full w-full flex-col items-center justify-center rounded-full border border-black/20 px-1.5 py-1.5 dark:border-white/20"
 >
 	<Icon src={VscBell} />
-	<span class="absolute p-1 bg-red-600 rounded-full top-0 right-0 mt-1 mr-1" />
+	<span class="absolute right-0 top-0 mr-1 mt-1 rounded-full bg-red-600 p-1" />
 </div>

@@ -12,7 +12,7 @@
 	{href}
 	data-sveltekit-preload-data={dataSveltekitPreloadData}
 	class={twMerge(
-		'py-2 px-3 hover:bg-black/10 dark:hover:bg-white/10 hover:underline flex items-center justify-start space-x-1',
+		'flex items-center justify-start space-x-1 px-3 py-2 hover:bg-black/10 hover:underline dark:hover:bg-white/10',
 		className
 	)}
 >

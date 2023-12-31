@@ -19,7 +19,7 @@
 					.slice(0, i + 1)
 					.join('/')
 					.toLowerCase()}`}
-				class="before:content-['/'] before:pr-2"
+				class="before:pr-2 before:content-['/']"
 			>
 				{link}
 			</a>

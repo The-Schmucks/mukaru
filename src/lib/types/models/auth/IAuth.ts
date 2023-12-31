@@ -19,5 +19,4 @@ export interface ILoginResponse {
 }
 
 export interface ILoginError extends IError<Pick<IUser, 'email' | 'password'>> {}
-export interface IRegisterError
-	extends IError<Pick<IUser, 'email' | 'password'> & { password_confirmation: string }> {}
+export interface IRegisterError extends IError<Pick<IUser, 'email' | 'password'> & { password_confirmation: string }> {}

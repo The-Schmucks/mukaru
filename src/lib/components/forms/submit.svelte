@@ -7,7 +7,7 @@
 
 <button
 	type="submit"
-	class={`bg-black dark:bg-white disabled:bg-black/80 disabled:dark:bg-white/80 hover:underline w-full flex items-center justify-center py-1.5 text-white dark:text-black rounded-md gap-2`}
+	class={`flex w-full items-center justify-center gap-2 rounded-md bg-black py-1.5 text-white hover:underline disabled:bg-black/80 dark:bg-white dark:text-black disabled:dark:bg-white/80`}
 	disabled={loading}
 >
 	{#if loading}

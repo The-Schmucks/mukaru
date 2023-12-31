@@ -17,7 +17,7 @@
 	$: value;
 </script>
 
-<div class={twMerge('w-full flex flex-col', className)}>
+<div class={twMerge('flex w-full flex-col', className)}>
 	<InputLabel {label} {name} />
 	<EditableInput
 		{autocomplete}

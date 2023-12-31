@@ -10,7 +10,7 @@
 </script>
 
 <div
-	class="group relative group flex items-center justify-center px-2.5 py-1.5 space-x-1.5 rounded-full border border-black/20 dark:border-white/20 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black hover:cursor-pointer"
+	class="group group relative flex items-center justify-center space-x-1.5 rounded-full border border-black/20 px-2.5 py-1.5 hover:cursor-pointer hover:bg-black hover:text-white dark:border-white/20 dark:hover:bg-white dark:hover:text-black"
 >
 	<span class="flex items-center justify-center">
 		<Icon src={RiUserUser6Line} />
@@ -24,16 +24,14 @@
 	{:else}
 		<span class="hidden md:block"> Account </span>
 	{/if}
-	<span
-		class="flex items-center justify-center group-hover:rotate-180 transition-transform ease-in-out duration-300"
-	>
+	<span class="flex items-center justify-center transition-transform duration-300 ease-in-out group-hover:rotate-180">
 		<Icon src={CgChevronDown} />
 	</span>
 	<div
-		class="absolute transition-transform ease-in-out top-full right-0 w-52 translate-x-full opacity-0 invisible group-hover:translate-x-0 group-hover:visible group-hover:opacity-100"
+		class="invisible absolute right-0 top-full w-52 translate-x-full opacity-0 transition-transform ease-in-out group-hover:visible group-hover:translate-x-0 group-hover:opacity-100"
 	>
 		<div
-			class="mt-2 bg-black dark:bg-white text-white dark:text-black rounded-md text-xs divide-y divide-white dark:divide-black/30"
+			class="mt-2 divide-y divide-white rounded-md bg-black text-xs text-white dark:divide-black/30 dark:bg-white dark:text-black"
 		>
 			{#if !user}
 				<DropdownItem href={'/login'}>Login</DropdownItem>

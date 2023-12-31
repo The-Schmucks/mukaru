@@ -12,19 +12,15 @@
 </script>
 
 {#if redirect}
-	<span
-		class="absolute left-0 right-0 bottom-0 z-50 bg-red-600 text-white py-3 text-center text-xl font-normal blur-0"
-	>
+	<span class="absolute bottom-0 left-0 right-0 z-50 bg-red-600 py-3 text-center text-xl font-normal text-white blur-0">
 		You must be logged in to access this page
 	</span>
 {/if}
 
-<div class="basis-full flex flex-col mx-56 justify-center space-y-6">
-	<div class="space-y-2 flex flex-col">
+<div class="mx-56 flex basis-full flex-col justify-center space-y-6">
+	<div class="flex flex-col space-y-2">
 		<span class="text-2xl">Welcome Back</span>
-		<span class="text-sm text-black/75 dark:text-white/75">
-			Welcome back, Please enter your details
-		</span>
+		<span class="text-sm text-black/75 dark:text-white/75"> Welcome back, Please enter your details </span>
 	</div>
 
 	<form
@@ -61,13 +57,11 @@
 				errors={[]}
 			/>
 		</div>
-		<div class="space-x-4">
+		<div class="space-x-4 space-y-1">
 			<Submit loading={$loading} />
-			<span class="flex items-center justify-center">
+			<span class="font- flex items-center justify-center">
 				Don't have an account?
-				<a data-sveltekit-preload-data="tap" href="register" class="font-bold ml-1 hover:underline">
-					Register
-				</a>
+				<a data-sveltekit-preload-data="tap" href="register" class="ml-1 font-bold hover:underline"> Register </a>
 			</span>
 		</div>
 	</form>
